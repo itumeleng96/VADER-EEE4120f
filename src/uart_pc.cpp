@@ -30,7 +30,7 @@ int main(int argc, char* argv[])
                 data = static_cast<unsigned>((double)rand() / (RAND_MAX + 1) *(range_max - range_min) + range_min);
                 //send data to the FPGA
                 if (write_data_to_serial_port(data))
-                    cout << "The data " << hex << data <" have been successfully transmitted to the FPGA" << endl;
+                    cout << "The data " << hex << data <<" have been successfully transmitted to the FPGA" << endl;
                 break;
             case 'e' :
                 break;
