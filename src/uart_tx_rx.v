@@ -1,37 +1,55 @@
-
+`timescale 1ns / 1ps
+//////////////////////////////////////////////////////////////////////////////////
+// Company: 
+// Engineer: IJ Malemela
+// 
+// Create Date: 10.06.2020 16:16:28
+// Design Name: SHAVADER
+// Module Name: 
+// Project Name: 
+// Target Devices: Nexys 4
+// Tool Versions: 
+// Description: UART
+// 
+// Dependencies: 
+// 
+// Revision:
+// Revision 0.01 - File Created
+// Additional Comments:
+// 
+//////////////////////////////////////////////////////////////////////////////////
 
 //9600 baud rate, 8 data bits, no parity, 1 stop bit
 // no timescale needed
 
-module UART_comm(
-input wire clk,
-input wire WR,
-input wire [7:0] DIN,
+module uart_tx_rx(
+input  clk,
+input  WR,
+input  [7:0] DIN,
 output reg [7:0] DOUT,
 output reg TX_ready,
 output reg RX_ready,
 output reg TXD,
-input wire RXD
+input  RXD
 );
-
-
 
 
 //CLOCK
 //100 MHz/9600 baud rate  = 10416 = 0x28B0
 
-parameter CLK_DIV = 2'b10,12'h8B0;      //100 MHz/9600/2 = 5208 = 0x1458
-parameter CLK_DIV_HALF = 1'b1,12'h458;  //TRANSMISSION
+parameter CLK_DIV = {2'b10,12'h8B0};      //100 MHz/9600/2 = 5208 = 0x1458
+parameter CLK_DIV_HALF = {1'b1,12'h458};  //TRANSMISSION
 
-reg [13:0] TX_div = 1'b0;  //frame = 1 start + 8 data + 1 stop = 10 bits
-reg [9:0] TX_frame = 1'b1,8'hff,1'b0;
+reg [13:0] TX_div = 1'b0;                  //frame = 1 start + 8 data + 1 stop = 10 bits
+reg [9:0] TX_frame = {1'b1,8'hff,1'b0};
 
 parameter [1:0]
   READY = 0,
   LOAD_BIT = 1,
   SEND_BIT = 2;
 
-reg [1:0] TX_state = READY; reg [1:0] TX_next_state = READY;
+reg [1:0] TX_state = READY; 
+reg [1:0] TX_next_state = READY;
 reg [31:0] TX_bitIndex;  // index of the next bit in TX_frame to be transferred
 
 //RECEPTION
@@ -39,7 +57,6 @@ reg [13:0] RX_div = 1'b0;
 reg [9:0] RX_frame;  //1 start + 8 data + 1 stop = 10 bits
 
 parameter [2:0]
-  READY = 0,
   DETECT_START_BIT = 1,
   READ_BIT = 2,
   PUT_BIT = 3,
