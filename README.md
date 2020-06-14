@@ -3,4 +3,3 @@ This project aims to create an add-on device which will speed up recovery of pas
 
 Petersen Phihlela (PHHPET001) | Itumeleng Malemela (MLMITU002) | Albert Ojo-Aromokudu (OJRALB001)
 
-//////////////////////////////////////////////////////////////////////////////////////////////////
